@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<view xmlns="http://www.skyve.org/xml/view"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="edit"
+	xmlns:c="http://www.skyve.org/xml/common" 
+	title="{firstName} {lastName} ({code})"
+	xsi:schemaLocation="http://www.skyve.org/xml/view ../../../../schemas/view.xsd">
+	<hbox>
+		<vbox border="true" borderTitle="Details">
+			<form  >
+				<column responsiveWidth="4" />
+				<column />
+				<row>
+					<item>
+						<default binding="code" />
+					</item>
+				</row>
+				<row>
+					<item>
+						<default binding="firstName" />
+					</item>
+				</row>
+				<row>
+					<item>
+						<default binding="lastName" />
+					</item>
+				</row>
+				<row>
+					<item>
+						<contentImage binding="profileImage" />
+					</item>
+				</row>
+				<row>
+					<item>
+						<textField binding="dateOfBirth">
+							<onChangedHandlers>
+								<rerender clientValidation="false"></rerender>
+							</onChangedHandlers>
+						</textField>
+					</item>
+				</row>
+				<row>
+					<item>
+						<textField editable="false" binding="ageInYears" />
+					</item>
+				</row>
+				<row>
+					<item>
+						<default binding="address" />
+					</item>
+				</row>
+				<row>
+					<item>
+						<combo binding="status">
+							<onChangedHandlers>
+								<rerender clientValidation="false">
+								    <properties>
+								        <c:property key="update">
+								            shGrid,historyCountForm
+								        </c:property>
+								    </properties>    
+								</rerender>
+							</onChangedHandlers>
+						</combo>
+					</item>
+				</row>
+				</form>
+				<form widgetId="historyCountForm">
+				<column responsiveWidth="4" />
+				<column />
+				<row>
+					<item align="right">
+						<label value="Status history count:"></label>
+					</item>
+					<item>
+						<blurb>
+						    <![CDATA[<em> <strong> The count of history items is {statusHistoryCount}. </strong> </em>]]>
+						</blurb>
+					</item>
+				</row>
+				</form>
+				<form widgetId="baseOfficeForm">
+				<column responsiveWidth="4" />
+				<column />
+				<row>
+					<item>
+						<lookupDescription binding="baseOffice"
+							descriptionBinding="street"></lookupDescription>
+					</item>
+				</row>
+			</form>
+		</vbox>
+		<vbox>
+			<form border="true" borderTitle="Location">
+				<column />
+				<row>
+					<item showLabel="false">
+						<geometryMap binding="location">
+							<onChangedHandlers />
+						</geometryMap>
+					</item>
+				</row>
+
+			</form>
+		</vbox>
+
+	</hbox>
+
+	<vbox widgetId="shGrid">
+		<dataGrid title="Status History" binding="statusHistory"
+			showZoom="false">
+			<boundColumn binding="status" />
+			<boundColumn binding="time" />
+		</dataGrid>
+	</vbox>
+
+
+
+	<actions>
+	
+		<defaults />
+	</actions>
+
+</view>

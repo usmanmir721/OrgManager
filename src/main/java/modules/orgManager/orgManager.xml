@@ -4,12 +4,15 @@
     <homeDocument>Office</homeDocument>
     <documents>
         <document ref="Office"/>
+        <document ref="Staff"/>
+        <document ref="StaffStatusHistory"/>
     </documents>
     <roles>
         <role name="Viewer">
             <description><![CDATA[Enough privileges to view Org Manager documents.]]></description>
             <privileges>
                 <document name="Office" permission="_R__C"/>
+                <document name="Staff" permission="_R__C"/>
             </privileges>
             <accesses/>
         </role>
@@ -17,6 +20,7 @@
             <description><![CDATA[Enough privileges to create and edit Org Manager documents.]]></description>
             <privileges>
                 <document name="Office" permission="CRUDC"/>
+                <document name="Staff" permission="CRUDC"/>
             </privileges>
             <accesses/>
         </role>
@@ -26,5 +30,36 @@
             <role name="Maintainer"/>
             <role name="Viewer"/>
         </list>
+        <list document="Staff" name="Staff">
+            <role name="Maintainer"/>
+            <role name="Viewer"/>
+        </list>
     </menu>
+    <queries>
+        <query documentName="Office" name="Officeq">
+            <description><![CDATA[All Offices]]></description>
+            <columns>
+                <column binding="levelUnit" sortOrder="ascending"/>
+                <column binding="buildingName"/>
+                <column binding="street"/>
+                <column binding="suburb"/>
+                <column binding="postcode"/>
+                <column binding="phone"/>
+                <content display="thumbnail" pixelHeight="64" binding="attachment" pixelWidth="64"/>
+            </columns>
+        </query>
+        <query documentName="Staff" name="Staffq">
+            <description><![CDATA[All Staff]]></description>
+            <columns>
+                <column binding="code" sortOrder="ascending"/>
+                <column binding="firstName"/>
+                <column binding="lastName"/>
+                <column binding="dateOfBirth"/>
+                <column binding="address"/>
+                <column binding="location"/>
+                <content display="thumbnail" pixelHeight="64" binding="profileImage" pixelWidth="64"/>
+                <column binding="status"/>
+            </columns>
+        </query>
+    </queries>
 </module>

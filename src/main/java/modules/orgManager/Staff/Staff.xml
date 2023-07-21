@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://www.skyve.org/xml/document"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Staff"
+	xsi:schemaLocation="http://www.skyve.org/xml/document ../../../schemas/document.xsd">
+	<persistent name="ORG_Staff" />
+	<singularAlias>Staff</singularAlias>
+	<pluralAlias>Staff</pluralAlias>
+	<bizKey expression="{code}" />
+	<attributes>
+		<text name="code">
+			<displayName>Code</displayName>
+			<length>50</length>
+		</text>
+		<text name="firstName" required="true">
+			<displayName>First Name</displayName>
+			<length>200</length>
+		</text>
+		<text name="lastName" required="true">
+			<displayName>Last Name</displayName>
+			<length>200</length>
+		</text>
+		<date name="dateOfBirth">
+			<displayName>DOB</displayName>
+			<converterName>DD_MM_YYYY</converterName>
+		</date>
+		<integer name="ageInYears" persistent="false">
+			<displayName>Age in years</displayName>
+		</integer>
+
+		<memo name="address">
+			<displayName>Address</displayName>
+		</memo>
+		<geometry name="location">
+			<displayName>Location</displayName>
+		</geometry>
+		<image name="profileImage">
+			<displayName>Profile Image</displayName>
+		</image>
+		<enum name="status">
+			<displayName>Status</displayName>
+			<defaultValue>in</defaultValue>
+			<values>
+				<value code="#in" name="in" description="In" />
+				<value code="#outForLunch" name="outForLunch"
+					description="Out For Lunch" />
+				<value code="#out" name="out" description="Out" />
+			</values>
+		</enum>
+
+		<association name="baseOffice" type="aggregation">
+			<displayName>Base Office</displayName>
+			<documentName>Office</documentName>
+		</association>
+
+		<collection type="child" name="statusHistory">
+			<displayName>Status History</displayName>
+			<documentName>StaffStatusHistory</documentName>
+			<minCardinality>0</minCardinality>
+			<ordering>
+				<order sort="descending" by="time" />
+			</ordering>
+		</collection>
+		
+		<integer name="statusHistoryCount" persistent="false" trackChanges="false" audited="false">
+		    <displayName>Status History Count</displayName>
+		 </integer>
+		
+
+
+	</attributes>
+
+</document>
+
+
+
+

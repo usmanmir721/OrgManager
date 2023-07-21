@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<view xmlns="http://www.skyve.org/xml/view"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="edit"
+	title="Office"
+	xsi:schemaLocation="http://www.skyve.org/xml/view ../../../../schemas/view.xsd">
+
+	<form border="true" borderTitle="Details">
+		<column responsiveWidth="1" />
+		<column />
+		<column />
+		<row>
+			<item>
+				<default binding="levelUnit" />
+			</item>
+		</row>
+		<row>
+			<item>
+				<default binding="buildingName" />
+			</item>
+		</row>
+		<row>
+			<item>
+				<default binding="street" />
+			</item>
+		</row>
+		<row>
+			<item>
+				<default binding="suburb" />
+			</item>
+		</row>
+		<row>
+			<item>
+				<default binding="postcode" />
+			</item>
+		</row>
+		<row>
+			<item>
+				<default binding="phone" />
+			</item>
+		</row>
+		<row>
+			<item>
+				<contentImage binding="attachment" />
+			</item>
+		</row>
+	</form>
+
+	<vbox border="true" borderTitle="Staff">
+	<listGrid continueConversation="true" query="Staffq">
+	    <filterParameter operator="equal" filterBinding="baseOffice" valueBinding="bizId"/>
+	</listGrid>
+	
+	<!--  
+		<dataGrid binding="staffDir">
+			<boundColumn binding="code" />
+			<boundColumn binding="firstName" />
+			<boundColumn binding="lastName" />
+			<boundColumn binding="profileImage" />
+			<boundColumn binding="status" />
+			<onAddedHandlers />
+			<onEditedHandlers />
+			<onRemovedHandlers />
+			<onSelectedHandlers />
+		</dataGrid>
+	-->
+	</vbox>
+
+
+
+	<actions>
+		<defaults />
+	</actions>
+	<newParameters />
+</view>
