@@ -1,21 +1,29 @@
 package modules.orgManager.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import modules.orgManager.AbstractLastChanged.AbstractLastChangedExtension;
+import modules.orgManager.Office.OfficeExtension;
+import modules.orgManager.Staff.StaffExtension;
+import org.locationtech.jts.geom.Geometry;
 import org.skyve.CORE;
 import org.skyve.domain.messages.DomainException;
-import org.skyve.impl.domain.AbstractPersistentBean;
+import org.skyve.impl.domain.types.jaxb.GeometryMapper;
 
 /**
  * Office
  * 
+ * @navhas n neverInOffice 0..n Staff
  * @stereotype "persistent"
  */
 @XmlType
 @XmlRootElement
-public class Office extends AbstractPersistentBean {
+public abstract class Office extends AbstractLastChangedExtension {
 	/**
 	 * For Serialization
 	 * @hidden
@@ -23,9 +31,11 @@ public class Office extends AbstractPersistentBean {
 	private static final long serialVersionUID = 1L;
 
 	/** @hidden */
+	@SuppressWarnings("hiding")
 	public static final String MODULE_NAME = "orgManager";
 
 	/** @hidden */
+	@SuppressWarnings("hiding")
 	public static final String DOCUMENT_NAME = "Office";
 
 	/** @hidden */
@@ -45,6 +55,21 @@ public class Office extends AbstractPersistentBean {
 
 	/** @hidden */
 	public static final String phonePropertyName = "phone";
+
+	/** @hidden */
+	public static final String attachmentPropertyName = "attachment";
+
+	/** @hidden */
+	public static final String boundaryPropertyName = "boundary";
+
+	/** @hidden */
+	public static final String totalStaffCountPropertyName = "totalStaffCount";
+
+	/** @hidden */
+	public static final String inOfficeCountPropertyName = "inOfficeCount";
+
+	/** @hidden */
+	public static final String neverInOfficePropertyName = "neverInOffice";
 
 	/**
 	 * Level Unit
@@ -76,6 +101,31 @@ public class Office extends AbstractPersistentBean {
 	 **/
 	private String phone;
 
+	/**
+	 * Attachment
+	 **/
+	private String attachment;
+
+	/**
+	 * Office Boundary
+	 **/
+	private Geometry boundary;
+
+	/**
+	 * Total number of Staff
+	 **/
+	private Integer totalStaffCount;
+
+	/**
+	 * In Office Staff
+	 **/
+	private Integer inOfficeCount;
+
+	/**
+	 * Staff never in office
+	 **/
+	private List<StaffExtension> neverInOffice = new ArrayList<>();
+
 	@Override
 	@XmlTransient
 	public String getBizModule() {
@@ -88,7 +138,7 @@ public class Office extends AbstractPersistentBean {
 		return Office.DOCUMENT_NAME;
 	}
 
-	public static Office newInstance() {
+	public static OfficeExtension newInstance() {
 		try {
 			return CORE.getUser().getCustomer().getModule(MODULE_NAME).getDocument(CORE.getUser().getCustomer(), DOCUMENT_NAME).newInstance(CORE.getUser());
 		}
@@ -104,7 +154,7 @@ public class Office extends AbstractPersistentBean {
 	@XmlTransient
 	public String getBizKey() {
 		try {
-			return org.skyve.util.Binder.formatMessage("Office", this);
+			return org.skyve.util.Binder.formatMessage("Office-{buildingName}-{suburb}", this);
 		}
 		catch (@SuppressWarnings("unused") Exception e) {
 			return "Unknown";
@@ -223,5 +273,136 @@ public class Office extends AbstractPersistentBean {
 	public void setPhone(String phone) {
 		preset(phonePropertyName, phone);
 		this.phone = phone;
+	}
+
+	/**
+	 * {@link #attachment} accessor.
+	 * @return	The value.
+	 **/
+	public String getAttachment() {
+		return attachment;
+	}
+
+	/**
+	 * {@link #attachment} mutator.
+	 * @param attachment	The new value.
+	 **/
+	@XmlElement
+	public void setAttachment(String attachment) {
+		preset(attachmentPropertyName, attachment);
+		this.attachment = attachment;
+	}
+
+	/**
+	 * {@link #boundary} accessor.
+	 * @return	The value.
+	 **/
+	public Geometry getBoundary() {
+		return boundary;
+	}
+
+	/**
+	 * {@link #boundary} mutator.
+	 * @param boundary	The new value.
+	 **/
+	@XmlElement
+	@XmlJavaTypeAdapter(GeometryMapper.class)
+	public void setBoundary(Geometry boundary) {
+		preset(boundaryPropertyName, boundary);
+		this.boundary = boundary;
+	}
+
+	/**
+	 * {@link #totalStaffCount} accessor.
+	 * @return	The value.
+	 **/
+	public Integer getTotalStaffCount() {
+		return totalStaffCount;
+	}
+
+	/**
+	 * {@link #totalStaffCount} mutator.
+	 * @param totalStaffCount	The new value.
+	 **/
+	@XmlElement
+	public void setTotalStaffCount(Integer totalStaffCount) {
+		this.totalStaffCount = totalStaffCount;
+	}
+
+	/**
+	 * {@link #inOfficeCount} accessor.
+	 * @return	The value.
+	 **/
+	public Integer getInOfficeCount() {
+		return inOfficeCount;
+	}
+
+	/**
+	 * {@link #inOfficeCount} mutator.
+	 * @param inOfficeCount	The new value.
+	 **/
+	@XmlElement
+	public void setInOfficeCount(Integer inOfficeCount) {
+		this.inOfficeCount = inOfficeCount;
+	}
+
+	/**
+	 * {@link #neverInOffice} accessor.
+	 * @return	The value.
+	 **/
+	@XmlElement
+	public List<StaffExtension> getNeverInOffice() {
+		return neverInOffice;
+	}
+
+	/**
+	 * {@link #neverInOffice} accessor.
+	 * @param bizId	The bizId of the element in the list.
+	 * @return	The value of the element in the list.
+	 **/
+	public StaffExtension getNeverInOfficeElementById(String bizId) {
+		return getElementById(neverInOffice, bizId);
+	}
+
+	/**
+	 * {@link #neverInOffice} mutator.
+	 * @param bizId	The bizId of the element in the list.
+	 * @param element	The new value of the element in the list.
+	 **/
+	public void setNeverInOfficeElementById(String bizId, StaffExtension element) {
+		setElementById(neverInOffice, element);
+	}
+
+	/**
+	 * {@link #neverInOffice} add.
+	 * @param element	The element to add.
+	 **/
+	public boolean addNeverInOfficeElement(StaffExtension element) {
+		return neverInOffice.add(element);
+	}
+
+	/**
+	 * {@link #neverInOffice} add.
+	 * @param index	The index in the list to add the element to.
+	 * @param element	The element to add.
+	 **/
+	public void addNeverInOfficeElement(int index, StaffExtension element) {
+		neverInOffice.add(index, element);
+	}
+
+	/**
+	 * {@link #neverInOffice} remove.
+	 * @param element	The element to remove.
+	 **/
+	public boolean removeNeverInOfficeElement(StaffExtension element) {
+		return neverInOffice.remove(element);
+	}
+
+	/**
+	 * {@link #neverInOffice} remove.
+	 * @param index	The index in the list to remove the element from.
+	 **/
+	public StaffExtension removeNeverInOfficeElement(int index) {
+		return neverInOffice.remove(index);
 	}
 }

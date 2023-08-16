@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="edit"
 	title="Office"
 	xsi:schemaLocation="http://www.skyve.org/xml/view ../../../../schemas/view.xsd">
+	<component name="_lastChangedDisplay" document="AbstractLastChanged"/>
 
 	<form border="true" borderTitle="Details">
 		<column responsiveWidth="1" />
@@ -25,7 +26,9 @@
 		</row>
 		<row>
 			<item>
-				<default binding="suburb" />
+				<textField binding="suburb">
+				    <onChangedHandlers><rerender></rerender></onChangedHandlers>
+				</textField>
 			</item>
 		</row>
 		<row>
@@ -44,25 +47,60 @@
 			</item>
 		</row>
 	</form>
+	
+	<vbox border="true" borderTitle="Office Stats">
+	    <form border="true" borderTitle="Details">
+		<column />
+		<row>
+			<item>
+				<blurb>
+				    <![CDATA[Total number of staff assigned to office: {totalStaffCount}]]>
+				</blurb>
+			</item>
+		</row>
+		<row>
+			<item>
+				<blurb>
+				    <![CDATA[Total number of staff currently in this office: {inOfficeCount}]]>
+				</blurb>
+			</item>
+		</row>
+		</form>
+	</vbox>
 
 	<vbox border="true" borderTitle="Staff">
-	<listGrid continueConversation="true" query="Staffq">
-	    <filterParameter operator="equal" filterBinding="baseOffice" valueBinding="bizId"/>
-	</listGrid>
-	
-	<!--  
-		<dataGrid binding="staffDir">
+		<listGrid continueConversation="true" query="Staffq">
+			<filterParameter operator="equal"
+				filterBinding="baseOffice" valueBinding="bizId" />
+		</listGrid>
+
+		<!-- <dataGrid binding="staffDir"> <boundColumn binding="code" /> <boundColumn 
+			binding="firstName" /> <boundColumn binding="lastName" /> <boundColumn binding="profileImage" 
+			/> <boundColumn binding="status" /> <onAddedHandlers /> <onEditedHandlers 
+			/> <onRemovedHandlers /> <onSelectedHandlers /> </dataGrid> -->
+	</vbox>
+
+	<vbox border="true"
+		borderTitle="Staff Who Have Never Been in Office">
+		<dataGrid binding="neverInOffice" showEdit="false" showAdd="false" showRemove="false" showZoom="false">
 			<boundColumn binding="code" />
 			<boundColumn binding="firstName" />
 			<boundColumn binding="lastName" />
-			<boundColumn binding="profileImage" />
-			<boundColumn binding="status" />
-			<onAddedHandlers />
-			<onEditedHandlers />
-			<onRemovedHandlers />
-			<onSelectedHandlers />
 		</dataGrid>
-	-->
+	</vbox>
+
+	<vbox>
+		<form border="true" borderTitle="Location">
+			<column />
+			<row>
+				<item showLabel="false">
+					<geometryMap binding="boundary">
+						<onChangedHandlers />
+					</geometryMap>
+				</item>
+			</row>
+
+		</form>
 	</vbox>
 
 

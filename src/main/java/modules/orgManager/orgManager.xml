@@ -3,7 +3,10 @@
     <homeRef>list</homeRef>
     <homeDocument>Office</homeDocument>
     <documents>
+        <document ref="AbstractLastChanged"/>
         <document ref="Office"/>
+        <document ref="OrganisationDashboard"/>
+        <document ref="Position"/>
         <document ref="Staff"/>
         <document ref="StaffStatusHistory"/>
     </documents>
@@ -13,6 +16,8 @@
             <privileges>
                 <document name="Office" permission="_R__C"/>
                 <document name="Staff" permission="_R__C"/>
+                <document name="Position" permission="_R__C"/>
+                <document name="OrganisationDashboard" permission="_____"/>
             </privileges>
             <accesses/>
         </role>
@@ -20,12 +25,20 @@
             <description><![CDATA[Enough privileges to create and edit Org Manager documents.]]></description>
             <privileges>
                 <document name="Office" permission="CRUDC"/>
-                <document name="Staff" permission="CRUDC"/>
+                <document name="Staff" permission="CRUDC">
+                    <action name="SendHome"/>
+                </document>
+                <document name="Position" permission="CRUDC"/>
+                <document name="OrganisationDashboard" permission="_____"/>
             </privileges>
             <accesses/>
         </role>
     </roles>
     <menu>
+        <edit document="OrganisationDashboard" name="Organisation DashBoard">
+            <role name="Maintainer"/>
+            <role name="Viewer"/>
+        </edit>
         <list document="Office" name="Offices">
             <role name="Maintainer"/>
             <role name="Viewer"/>
@@ -34,6 +47,14 @@
             <role name="Maintainer"/>
             <role name="Viewer"/>
         </list>
+        <list document="Position" name="Position">
+            <role name="Maintainer"/>
+            <role name="Viewer"/>
+        </list>
+        <tree document="Position" name="Organization Hierarchy">
+            <role name="Maintainer"/>
+            <role name="Viewer"/>
+        </tree>
     </menu>
     <queries>
         <query documentName="Office" name="Officeq">

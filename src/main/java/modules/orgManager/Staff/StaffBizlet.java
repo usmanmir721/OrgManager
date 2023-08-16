@@ -12,6 +12,8 @@ import org.skyve.metadata.controller.ImplicitActionName;
 import org.skyve.metadata.model.document.Bizlet;
 import org.skyve.web.WebContext;
 
+import modules.orgManager.Position.PositionExtension;
+import modules.orgManager.domain.Position;
 import modules.orgManager.domain.Staff;
 import modules.orgManager.domain.StaffStatusHistory;
 
@@ -35,6 +37,10 @@ public class StaffBizlet extends Bizlet<StaffExtension> {
 			ssh.setStatus(bean.getStatus());
 			ssh.setTime(new Timestamp());
 			bean.addStatusHistoryElement(0, ssh);
+			
+			if (bean.getStatus().equals(Staff.Status.in)) {
+				bean.home();
+			}
 		}
 		
 		super.preRerender(source, bean, webContext);
@@ -55,8 +61,41 @@ public class StaffBizlet extends Bizlet<StaffExtension> {
 		if (ImplicitActionName.Edit.equals(actionName)) {
 			bean.calculateAgeInYears();
 		}
+		if (ImplicitActionName.Save.equals(actionName)
+				|| ImplicitActionName.OK.equals(actionName)) {
+			// Make the corresponding change in org structure
+			PositionExtension pe = StaffExtension.getPosition(bean);
+			
+			if (pe == null) {
+				String posTitle = bean.getPositionTitle();
+				Position pos = Position.newInstance();
+				pos.setPositionTitle(posTitle);
+				pos.setStaff(bean);
+				pos.setReportsTo(bean.getReportsTo());
+				CORE.getPersistence().save(pos);
+			} else {
+				pe.setReportsTo(bean.getReportsTo());
+				pe.setPositionTitle(bean.getPositionTitle());
+			}
+		}
 		return super.preExecute(actionName, bean, parentBean, webContext);
 	}
+
+	@Override
+	public void postLoad(StaffExtension bean) throws Exception {
+		
+		PositionExtension pe = StaffExtension.getPosition(bean);
+		if (pe != null) {
+			bean.setReportsTo(pe.getReportsTo());
+			bean.setPositionTitle(pe.getPositionTitle());
+		}
+		
+		super.postLoad(bean);
+	}
+	
+	
+	
+	
 	
 	
 

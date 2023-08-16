@@ -3,7 +3,14 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<hbox minPixelHeight="300">
 		<vbox border="true" borderTitle="System Activity" percentageHeight="100">
-			<chart type="line" modelName="ActivityModel"/>
+			
+			<chart type="polarArea">
+			<model categoryBinding="timestamp" moduleName="admin" documentName="Audit" label="Usage" valueBinding="userName" valueFunction="Count">
+			    <noBucket/>
+			    <top includeOthers="true" sort="ascending" top="10" by="category"/>
+			    <order sort="ascending" by="category"/>
+			</model>
+			</chart> 
 		</vbox>
 		<vbox border="true" borderTitle="System Status" percentageHeight="100">
 			<dataRepeater binding="status">

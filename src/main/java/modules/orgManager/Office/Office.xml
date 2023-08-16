@@ -2,6 +2,7 @@
 <document xmlns="http://www.skyve.org/xml/document"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Office"
 	xsi:schemaLocation="http://www.skyve.org/xml/document ../../../schemas/document.xsd">
+	<extends document="AbstractLastChanged"/>
 	<persistent name="ORG_Office" />
 	<singularAlias>Office</singularAlias>
 	<pluralAlias>Offices</pluralAlias>
@@ -34,13 +35,23 @@
 		<content name="attachment">
 			<displayName>Attachment</displayName>
 		</content>
-		<!--  
-		<inverseMany name="staffDir">
-		   <displayName>Staff</displayName>
-		   <documentName>Staff</documentName>
-		   <referenceName>baseOffice</referenceName>
-		</inverseMany>
-		-->
+		<geometry name="boundary">
+			<displayName>Office Boundary</displayName>
+		</geometry>
+		
+		<integer name="totalStaffCount" persistent="false" trackChanges="false" audited="false">
+		    <displayName>Total number of Staff</displayName>
+		 </integer>
+		<integer name="inOfficeCount" persistent="false" trackChanges="false" audited="false">
+		    <displayName>In Office Staff</displayName>
+		 </integer>
+		<collection name="neverInOffice" type="aggregation" persistent="false" trackChanges="false" audited="false">
+		    <displayName>Staff never in office</displayName>
+		    <documentName>Staff</documentName>
+		    <minCardinality>0</minCardinality>
+		</collection>
+		<!-- <inverseMany name="staffDir"> <displayName>Staff</displayName> <documentName>Staff</documentName> 
+			<referenceName>baseOffice</referenceName> </inverseMany> -->
 
 	</attributes>
 </document>

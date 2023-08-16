@@ -32,7 +32,7 @@ public class ActivityModel extends ChartModel<SystemDashboard> {
 
 		ChartBuilder cb = new ChartBuilder();
 		cb.with(q);
-		cb.category(Audit.timestampPropertyName, new TemporalBucket(TemporalBucketType.dayMonthYear));
+		cb.category(Audit.timestampPropertyName, new TemporalBucket(TemporalBucketType.hourDayMonth));
 		cb.value(Audit.userNamePropertyName, AggregateFunction.Count);
 		cb.top(14, OrderBy.category, SortDirection.descending, false);
 		cb.orderBy(OrderBy.category, SortDirection.ascending);

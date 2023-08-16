@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<view xmlns="http://www.skyve.org/xml/view"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="edit"
+	title="Organisation Dashboard"
+	xsi:schemaLocation="http://www.skyve.org/xml/view ../../../../schemas/view.xsd">
+
+	<form>
+		<column />
+		<column />
+		<row>
+			<item>
+				<blurb escape="false">
+					<![CDATA[ <h2><strong>Welcome {userName}!</strong></h2>]]>
+				</blurb>
+			</item>
+		</row>
+
+	</form>
+
+	<hbox>
+		<vbox border="true" borderTitle="Staff by Status">
+			<chart type="pie">
+				<model categoryBinding="status" moduleName="orgManager"
+					documentName="Staff" label="Staff by Status" valueBinding="bizId"
+					valueFunction="Count">
+					<noBucket />
+					<top includeOthers="true" sort="ascending" top="10"
+						by="category" />
+					<order sort="ascending" by="category" />
+				</model>
+			</chart>
+		</vbox>
+
+		<vbox border="true" borderTitle="Staff by Office">
+			<chart type="bar">
+				<model categoryBinding="baseOffice.buildingName"
+					moduleName="orgManager" documentName="Staff"
+					label="Staff by office" valueBinding="bizKey" valueFunction="Count">
+					<noBucket />
+					<top includeOthers="true" sort="ascending" top="10"
+						by="category" />
+					<order sort="ascending" by="category" />
+				</model>
+			</chart>
+		</vbox>
+	</hbox>
+
+	<vbox border="true" borderTitle="Staff with no office set">
+		<listGrid continueConversation="false" query="Staffq"
+			disabled="true" showAdd="false" showZoom="false" showFilter="false">
+			<filterParameter operator="isNull"
+				filterBinding="baseOffice" />
+		</listGrid>
+	</vbox>
+
+	<newParameters />
+
+</view>
